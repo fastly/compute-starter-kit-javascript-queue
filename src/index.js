@@ -6,7 +6,7 @@ import * as jws from "jws";
 
 import fetchConfig from "./config";
 import { getQueueCookie, setQueueCookie } from "./cookies";
-import { addToQueue, getQueueCursor, getRedis } from "./store";
+import { addToQueue, getQueueCursor, getStore } from "./store";
 import processView from "./views";
 
 import queueView from "./views/queue.html";
@@ -48,17 +48,24 @@ async function handleRequest(event) {
   // Get the queue configuration.
   let config = fetchConfig();
 
+  // Configure the Redis interface.
+  let redis = getStore(config);
+
+  // Get the user's queue cookie.
   let cookie = getQueueCookie(req);
+
+  // If the queue cookie is set, verify that it is valid.
   let isValid = cookie && jws.verify(cookie, "HS256", config.jwtSecret);
 
-  let redis = getRedis(config);
-
+  // Fetch the current queue cursor.
   let queueCursor = await getQueueCursor(redis);
 
+  // Initialise properties used to construct a response.
   let newToken = null;
   let visitorPosition = null;
 
   if (isValid) {
+    // Decode the JWT signature to get the visitor's position in the queue.
     let payload = JSON.parse(
       jws.decode(cookie, "HS256", config.jwtSecret).payload
     );
@@ -67,10 +74,12 @@ async function handleRequest(event) {
 
     console.log(`validated token for queue position #${visitorPosition}`);
   } else {
+    // Add a new visitor to the end of the queue.
     visitorPosition = await addToQueue(redis);
 
     console.log(`issued token for queue position #${visitorPosition}`);
 
+    // Sign a JWT with the visitor's position.
     newToken = jws.sign({
       header: { alg: "HS256" },
       payload: {
@@ -84,11 +93,13 @@ async function handleRequest(event) {
     `queue cursor: ${queueCursor}, visitor position: ${visitorPosition}`
   );
 
+  // Determine whether to allow or deny the request.
   let responseHandler =
     visitorPosition >= queueCursor
       ? handleUnauthorizedRequest(req, config, visitorPosition - queueCursor)
       : handleAuthorizedRequest(req);
 
+  // Set a cookie on the response if needed and return it to the client.
   let response = await responseHandler;
   if (newToken) {
     setQueueCookie(response, newToken);
