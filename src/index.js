@@ -161,7 +161,7 @@ async function handleAdminRequest(req, path, config, redis) {
 
   if (path == config.admin.path) {
     let visitorsWaiting =
-      (await getQueueLength(redis)) - (await getQueueCursor(redis));
+      (await getQueueLength(redis)) - (await getQueueCursor(redis)) + 1;
 
     return new Response(
       processView(adminView, {
