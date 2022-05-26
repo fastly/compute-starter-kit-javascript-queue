@@ -27,16 +27,16 @@ function fetchConfig() {
     queue: {
       // how often to refresh the queue page
       //
-      // default 10 seconds
-      refreshInterval: 10,
+      // default 5 seconds
+      refreshInterval: 5,
 
       // how long to remember a given visitor
       //
       // after this time, a visitor may lose their position in the queue
       // and have to start queuing again.
       //
-      // default 48 hours
-      cookieExpiry: 48 * 60 * 60,
+      // default 24 hours
+      cookieExpiry: 24 * 60 * 60,
 
       // how often to let visitors in automatically.
       // set to 0 to disable automatic queue advancement.
@@ -49,12 +49,12 @@ function fetchConfig() {
       // visitors than configured here.
       //
       // default 30 seconds
-      automatic: 30,
+      automatic: 15,
 
       // how many visitors should be let in at a time?
       //
-      // default 1000
-      automaticQuantity: 1000
+      // default 5
+      automaticQuantity: 5
     }
   };
 }

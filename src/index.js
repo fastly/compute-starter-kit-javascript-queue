@@ -12,6 +12,7 @@ import {
   getQueueCursor,
   getQueueLength,
   getStore,
+  incrementAutoPeriod,
   incrementQueueCursor,
 } from "./store";
 import processView from "./views";
@@ -109,14 +110,40 @@ async function handleRequest(event) {
     `queue cursor: ${queueCursor}, visitor position: ${visitorPosition}`
   );
 
-  // Determine whether to allow or deny the request.
-  let responseHandler =
-    visitorPosition >= queueCursor
-      ? handleUnauthorizedRequest(req, config, visitorPosition - queueCursor)
-      : handleAuthorizedRequest(req);
+  let response = null;
+
+  if (visitorPosition > queueCursor) {
+    if (config.queue.automatic > 0) {
+      let reqsThisPeriod = await incrementAutoPeriod(redis, config);
+
+      if (reqsThisPeriod == 1) {
+        let queueLength = await getQueueLength(redis);
+
+        if (queueCursor < queueLength + config.queue.automaticQuantity) {
+          console.log(
+            `request triggered automatic increment (${config.queue.automaticQuantity})`
+          );
+          queueCursor = await incrementQueueCursor(redis, config.queue.automaticQuantity);
+
+          if (visitorPosition < queueCursor) {
+            response = await handleAuthorizedRequest(req);
+          }
+        }
+      }
+    }
+
+    if (!response) {
+      response = await handleUnauthorizedRequest(
+        req,
+        config,
+        visitorPosition - queueCursor - 1
+      );
+    }
+  } else {
+    response = await handleAuthorizedRequest(req);
+  }
 
   // Set a cookie on the response if needed and return it to the client.
-  let response = await responseHandler;
   if (newToken) {
     setQueueCookie(response, newToken, config.queue.cookieExpiry);
   }
@@ -125,6 +152,7 @@ async function handleRequest(event) {
 
 // Handle an incoming request that has been authorized to access protected content.
 async function handleAuthorizedRequest(req) {
+  console.log('authorized! passing to backend');
   return await fetch(req, {
     backend: CONTENT_BACKEND,
     ttl: 21600,
@@ -133,9 +161,13 @@ async function handleAuthorizedRequest(req) {
 
 // Handle an incoming request that is not yet authorized to access protected content.
 async function handleUnauthorizedRequest(req, config, visitorsAhead) {
+  console.log('denied - serving queue page');
+
   return new Response(
     processView(queueView, {
       visitorsAhead: visitorsAhead.toLocaleString(),
+      visitorsVerb: visitorsAhead == 1 ? "is" : "are",
+      visitorsPlural: visitorsAhead == 1 ? "person" : "people",
       refreshInterval: config.queue.refreshInterval,
     }),
     {

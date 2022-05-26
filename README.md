@@ -10,7 +10,6 @@ Park your users in a virtual queue to reduce the demand on your origins during p
 
 * Park visitors in a queue to limit the amount of active users.
 * Ship queue analytics to [log endpoints](https://developer.fastly.com/learning/integrations/logging).
-* Forward Open Graph tags and other SEO-related metadata.
 * Allow certain requests such as robots.txt, favicon, etc.
 
 ## Getting started

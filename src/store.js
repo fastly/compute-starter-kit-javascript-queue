@@ -5,6 +5,7 @@ const UPSTASH_BACKEND = "upstash";
 
 const CURSOR_KEY = "queue:cursor";
 const LENGTH_KEY = "queue:length";
+const AUTO_KEY_PREFIX = "queue:auto";
 
 // Get the current queue cursor, i.e. how many visitors have been let in
 export async function getQueueCursor(store) {
@@ -29,6 +30,16 @@ export async function getQueueLength(store) {
 // Returns the new queue length.
 export async function addToQueue(store) {
   return await store.incr(LENGTH_KEY);
+}
+
+// Increment the request counter for the current period.
+//
+// Returns the new counter value.
+export async function incrementAutoPeriod(store, config) {
+  let period = Math.ceil(new Date().getTime() / (config.queue.automatic * 1000));
+  console.log(`this period is #${period}`)
+
+  return await store.incr(`${AUTO_KEY_PREFIX}:${period}`);
 }
 
 // Helper function for configuring a Redis client.
