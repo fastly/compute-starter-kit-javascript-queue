@@ -67,8 +67,15 @@ async function handleRequest(event) {
   // Get the user's queue cookie.
   let cookie = getQueueCookie(req);
 
+  // Decode the JWT signature to get the visitor's position in the queue.
+  let payload =
+    cookie && JSON.parse(jws.decode(cookie, "HS256", config.jwtSecret).payload);
+
   // If the queue cookie is set, verify that it is valid.
-  let isValid = cookie && jws.verify(cookie, "HS256", config.jwtSecret);
+  let isValid =
+    payload &&
+    jws.verify(cookie, "HS256", config.jwtSecret) &&
+    new Date(payload.expiry) > Date.now();
 
   // Fetch the current queue cursor.
   let queueCursor = await getQueueCursor(redis);
@@ -77,12 +84,7 @@ async function handleRequest(event) {
   let newToken = null;
   let visitorPosition = null;
 
-  if (isValid) {
-    // Decode the JWT signature to get the visitor's position in the queue.
-    let payload = JSON.parse(
-      jws.decode(cookie, "HS256", config.jwtSecret).payload
-    );
-
+  if (payload && isValid) {
     visitorPosition = payload.position;
 
     console.log(`validated token for queue position #${visitorPosition}`);
@@ -97,6 +99,7 @@ async function handleRequest(event) {
       header: { alg: "HS256" },
       payload: {
         position: visitorPosition,
+        expiry: new Date(Date.now() + config.queue.cookieExpiry * 1000),
       },
       secret: config.jwtSecret,
     });
@@ -115,7 +118,7 @@ async function handleRequest(event) {
   // Set a cookie on the response if needed and return it to the client.
   let response = await responseHandler;
   if (newToken) {
-    setQueueCookie(response, newToken);
+    setQueueCookie(response, newToken, config.queue.cookieExpiry);
   }
   return response;
 }

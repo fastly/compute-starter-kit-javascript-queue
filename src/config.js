@@ -30,19 +30,13 @@ function fetchConfig() {
       // default 10 seconds
       refreshInterval: 10,
 
-      // how long to remember a visitor's position in the queue
+      // how long to remember a given visitor
       //
       // after this time, a visitor may lose their position in the queue
       // and have to start queuing again.
       //
       // default 48 hours
-      maxQueueDuration: 48 * 60 * 60,
-
-      // how long to let a visitor access the protected
-      // content after they have been let in
-      //
-      // default 48 hours
-      accessDuration: 48 * 60 * 60,
+      cookieExpiry: 48 * 60 * 60,
 
       // how often to let visitors in automatically.
       // set to 0 to disable automatic queue advancement.
