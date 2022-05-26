@@ -24,9 +24,5 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
 
     [local_server.dictionaries.config]
 
-      format = "inline-toml"
-
-      [local_server.dictionaries.config.contents]
-      upstash_url = "https://eu1-close-treefrog-37046.upstash.io/"
-      upstash_token = "AZC2ASQgYjkwNjY3MGUtYjM5NS00MmE5LTk1ZDctMmIxYzU4Y2E0ZTAyMmI1ODAxMTEzMTQ2NDY1YmJhYzI0YTc1MjhjMjEwY2Q="
-      jwt_secret = "abc123"
+      format = "json"
+      file = "devconfig.json"

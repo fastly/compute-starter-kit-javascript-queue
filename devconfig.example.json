@@ -1,0 +1,5 @@
+{
+  "upstash_url": "https://eu1-far-eagle-37042.upstash.io/",
+  "upstash_token": "ToKeN=",
+  "jwt_secret": "abc123"
+}
