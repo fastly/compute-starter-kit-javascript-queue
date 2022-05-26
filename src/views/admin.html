@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>eventWORLD | Virtual Queue</title>
+  </head>
+  <body>
+    <div class="info">
+      <img class="logo" src="/assets/logo.svg" alt="eventWORLD logo" />
+      <h1>Queue Management</h1>
+
+      <form method="POST" action="{{ adminBase }}/permit">
+        <input type="submit" value="Let a visitor in" />
+      </form>
+
+      <br/>
+
+      <p>There are <em>{{ visitorsWaiting }}</em> visitors waiting to enter.</p>
+    </div>
+  </body>
+</html>

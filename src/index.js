@@ -3,12 +3,20 @@
 /// <reference types="@fastly/js-compute" />
 
 import * as jws from "jws";
+import * as base64 from "base-64";
 
 import fetchConfig from "./config";
 import { getQueueCookie, setQueueCookie } from "./cookies";
-import { addToQueue, getQueueCursor, getStore } from "./store";
+import {
+  addToQueue,
+  getQueueCursor,
+  getQueueLength,
+  getStore,
+  incrementQueueCursor,
+} from "./store";
 import processView from "./views";
 
+import adminView from "./views/admin.html";
 import queueView from "./views/queue.html";
 
 // The name of the backend serving the content that is being protected by the queue.
@@ -50,6 +58,11 @@ async function handleRequest(event) {
 
   // Configure the Redis interface.
   let redis = getStore(config);
+
+  // Handle requests to admin endpoints.
+  if (config.admin.path && url.pathname.startsWith(config.admin.path)) {
+    return await handleAdminRequest(req, url.pathname, config, redis);
+  }
 
   // Get the user's queue cookie.
   let cookie = getQueueCookie(req);
@@ -129,4 +142,47 @@ async function handleUnauthorizedRequest(req, config, visitorsAhead) {
       },
     }
   );
+}
+
+// Handle an incoming request to an admin-related endpoint.
+async function handleAdminRequest(req, path, config, redis) {
+  if (
+    config.admin.password &&
+    req.headers.get("Authorization") !=
+      `Basic ${base64.encode(`admin:${config.admin.password}`)}`
+  ) {
+    return new Response(null, {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="Queue Admin"',
+      },
+    });
+  }
+
+  if (path == config.admin.path) {
+    let visitorsWaiting =
+      (await getQueueLength(redis)) - (await getQueueCursor(redis));
+
+    return new Response(
+      processView(adminView, {
+        adminBase: config.admin.path,
+        visitorsWaiting,
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html",
+        },
+      }
+    );
+  } else if (path == `${config.admin.path}/permit`) {
+    await incrementQueueCursor(redis, 1);
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: config.admin.path,
+      },
+    });
+  }
 }
