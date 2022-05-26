@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>eventWORLD | Virtual Queue</title>
+    <meta http-equiv="refresh" content="{{ refreshInterval }}" />
+  </head>
+  <body>
+    <div class="info">
+      <img class="logo" src="/assets/logo.svg" alt="eventWORLD logo" />
+      <h1>Sometimes we have to restrict the number of people who can access our website at the same time, so that everything works properly.</h1>
+
+      <div class="loader"></div>
+
+      <p>There are <em>{{ visitorsAhead }}</em> people ahead of you in the queue.</p>
+    </div>
+    <span class="attr">Photo by <a href="https://unsplash.com/@jordonsconner?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jordon Conner</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></span>
+  </body>
+</html>
