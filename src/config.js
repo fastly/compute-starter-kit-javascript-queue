@@ -11,7 +11,7 @@ function fetchConfig() {
       // the path for serving the admin interface and API
       //
       // set to null to disable the admin interface
-      path: '/_queue',
+      path: "/_queue",
 
       // the password for the admin interface, requested
       // when the admin path is accessed via HTTP Basic Auth
@@ -22,7 +22,7 @@ function fetchConfig() {
       // method, as this would allow anybody to skip the queue.
       //
       // set to null to disable HTTP Basic Auth (not recommended!)
-      password: 'fastly'
+      password: "fastly",
     },
     queue: {
       // how often to refresh the queue page
@@ -61,7 +61,7 @@ function fetchConfig() {
       //
       // default 15, set to 1 for normal behaviour
       demoPadding: 15,
-    }
+    },
   };
 }
 

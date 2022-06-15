@@ -1,9 +1,12 @@
 export function getQueueCookie(req) {
-  let rawCookie = req.headers.get('Cookie');
+  let rawCookie = req.headers.get("Cookie");
 
   if (!rawCookie) return null;
 
-  let res = rawCookie.split(';').map(c => c.split('=')).filter(([k, _]) => k === 'queue');
+  let res = rawCookie
+    .split(";")
+    .map((c) => c.split("="))
+    .filter(([k, _]) => k === "queue");
 
   if (res.length > 1) return null;
 
@@ -11,5 +14,8 @@ export function getQueueCookie(req) {
 }
 
 export function setQueueCookie(res, queueCookie, maxAge) {
-  res.headers.set('Set-Cookie', `queue=${queueCookie}; path=/; Secure; HttpOnly; Max-Age=${maxAge}`);
+  res.headers.set(
+    "Set-Cookie",
+    `queue=${queueCookie}; path=/; Secure; HttpOnly; Max-Age=${maxAge}`
+  );
 }

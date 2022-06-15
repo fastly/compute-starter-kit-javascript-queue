@@ -28,7 +28,7 @@ export async function getQueueLength(store) {
 // Add the given amount of visitors to the queue.
 //
 // Returns the new queue length.
-export async function addToQueue(store, amt) {
+export async function incrementQueueLength(store, amt) {
   return await store.incrby(LENGTH_KEY, amt);
 }
 
@@ -36,8 +36,10 @@ export async function addToQueue(store, amt) {
 //
 // Returns the new counter value.
 export async function incrementAutoPeriod(store, config) {
-  let period = Math.ceil(new Date().getTime() / (config.queue.automatic * 1000));
-  console.log(`this period is #${period}`)
+  let period = Math.ceil(
+    new Date().getTime() / (config.queue.automatic * 1000)
+  );
+  console.log(`this period is #${period}`);
 
   return await store.incr(`${AUTO_KEY_PREFIX}:${period}`);
 }

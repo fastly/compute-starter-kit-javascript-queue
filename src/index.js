@@ -6,15 +6,18 @@ import * as jws from "jws";
 import * as base64 from "base-64";
 
 import fetchConfig from "./config";
+
 import { getQueueCookie, setQueueCookie } from "./cookies";
+
 import {
-  addToQueue,
+  getStore,
   getQueueCursor,
   getQueueLength,
-  getStore,
-  incrementAutoPeriod,
   incrementQueueCursor,
+  incrementQueueLength,
+  incrementAutoPeriod,
 } from "./store";
+
 import processView from "./views";
 
 import adminView from "./views/admin.html";
@@ -92,7 +95,7 @@ async function handleRequest(event) {
   } else {
     // Add a new visitor to the end of the queue.
     // If demo padding is set in the config, the queue will grow by that amount.
-    visitorPosition = await addToQueue(
+    visitorPosition = await incrementQueueLength(
       redis,
       config.queue.demoPadding ? config.queue.demoPadding : 1
     );
