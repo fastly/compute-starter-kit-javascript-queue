@@ -1,11 +1,11 @@
 {
   "name": "compute-starter-kit-javascript-queue",
-  "version": "0.2.1",
+  "version": "1.0.0-pre",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
-      "version": "0.2.1",
+      "version": "1.0.0-pre",
       "license": "MIT",
       "dependencies": {
         "@fastly/js-compute": "^0.2.4",

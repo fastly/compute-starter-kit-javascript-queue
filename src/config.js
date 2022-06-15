@@ -48,13 +48,19 @@ function fetchConfig() {
       // you may still call the admin API (if enabled) to let in more
       // visitors than configured here.
       //
-      // default 30 seconds
+      // default 15 seconds
       automatic: 15,
 
       // how many visitors should be let in at a time?
       //
       // default 5
-      automaticQuantity: 5
+      automaticQuantity: 5,
+
+      // for demonstration purposes only, how many visitors should be
+      // added to the queue ahead of a new visitor
+      //
+      // default 15, set to 1 for normal behaviour
+      demoPadding: 15,
     }
   };
 }

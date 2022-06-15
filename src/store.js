@@ -25,11 +25,11 @@ export async function getQueueLength(store) {
   return parseInt(await store.get(LENGTH_KEY));
 }
 
-// Add a visitor to the queue.
+// Add the given amount of visitors to the queue.
 //
 // Returns the new queue length.
-export async function addToQueue(store) {
-  return await store.incr(LENGTH_KEY);
+export async function addToQueue(store, amt) {
+  return await store.incrby(LENGTH_KEY, amt);
 }
 
 // Increment the request counter for the current period.

@@ -91,7 +91,11 @@ async function handleRequest(event) {
     console.log(`validated token for queue position #${visitorPosition}`);
   } else {
     // Add a new visitor to the end of the queue.
-    visitorPosition = await addToQueue(redis);
+    // If demo padding is set in the config, the queue will grow by that amount.
+    visitorPosition = await addToQueue(
+      redis,
+      config.queue.demoPadding ? config.queue.demoPadding : 1
+    );
 
     console.log(`issued token for queue position #${visitorPosition}`);
 
@@ -123,7 +127,10 @@ async function handleRequest(event) {
           console.log(
             `request triggered automatic increment (${config.queue.automaticQuantity})`
           );
-          queueCursor = await incrementQueueCursor(redis, config.queue.automaticQuantity);
+          queueCursor = await incrementQueueCursor(
+            redis,
+            config.queue.automaticQuantity
+          );
 
           if (visitorPosition < queueCursor) {
             response = await handleAuthorizedRequest(req);
@@ -152,7 +159,7 @@ async function handleRequest(event) {
 
 // Handle an incoming request that has been authorized to access protected content.
 async function handleAuthorizedRequest(req) {
-  console.log('authorized! passing to backend');
+  console.log("authorized! passing to backend");
   return await fetch(req, {
     backend: CONTENT_BACKEND,
     ttl: 21600,
@@ -161,7 +168,7 @@ async function handleAuthorizedRequest(req) {
 
 // Handle an incoming request that is not yet authorized to access protected content.
 async function handleUnauthorizedRequest(req, config, visitorsAhead) {
-  console.log('denied - serving queue page');
+  console.log("denied - serving queue page");
 
   return new Response(
     processView(queueView, {
