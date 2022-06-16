@@ -7,7 +7,7 @@ import * as base64 from "base-64";
 
 import fetchConfig from "./config";
 
-import { getQueueCookie, setQueueCookie } from "./cookies";
+import { clearQueueCookie, getQueueCookie, setQueueCookie } from "./cookies";
 
 import {
   getStore,
@@ -167,9 +167,10 @@ async function handleRequest(event) {
 
   // Set a cookie on the response if needed and return it to the client.
   if (newToken) {
-    setQueueCookie(response, newToken, config.queue.cookieExpiry);
+    return setQueueCookie(response, newToken, config.queue.cookieExpiry);
+  } else {
+    return response;
   }
-  return response;
 }
 
 // Handle an incoming request that has been authorized to access protected content.
@@ -233,13 +234,22 @@ async function handleAdminRequest(req, path, config, redis) {
       }
     );
   } else if (path == `${config.admin.path}/permit`) {
-    await incrementQueueCursor(redis, 1);
+    let amt = parseInt(
+      new URL("http://127.0.0.1/?" + (await req.text())).searchParams.get("amt")
+    );
+    await incrementQueueCursor(redis, amt || 1);
 
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: config.admin.path,
-      },
-    });
+    return returnToAdmin(config);
+  } else if (path == `${config.admin.path}/clear_self`) {
+    return clearQueueCookie(returnToAdmin(config));
   }
+}
+
+function returnToAdmin(config) {
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: config.admin.path,
+    },
+  });
 }
