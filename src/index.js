@@ -23,6 +23,8 @@ import processView from "./views";
 import adminView from "./views/admin.html";
 import queueView from "./views/queue.html";
 
+import demoManifest from "./static/demo-manifest.md";
+
 // The name of the backend serving the content that is being protected by the queue.
 const CONTENT_BACKEND = "protected_content";
 
@@ -44,6 +46,16 @@ async function handleRequest(event) {
   let url = new URL(req.url);
 
   console.log(`received request ${req.method} ${url.pathname}`);
+
+  // For demo purposes, we serve this manifest. Feel free to delete this.
+  if (url.pathname == "/.well-known/fastly/demo-manifest") {
+    return new Response(demoManifest, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/markdown",
+      },
+    });
+  }
 
   // Allow requests to assets that are not protected by the queue.
   if (ALLOWED_PATHS.includes(url.pathname)) {

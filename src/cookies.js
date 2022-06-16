@@ -16,6 +16,6 @@ export function getQueueCookie(req) {
 export function setQueueCookie(res, queueCookie, maxAge) {
   res.headers.set(
     "Set-Cookie",
-    `queue=${queueCookie}; path=/; Secure; HttpOnly; Max-Age=${maxAge}`
+    `queue=${queueCookie}; path=/; Secure; HttpOnly; Max-Age=${maxAge}; SameSite=None`
   );
 }

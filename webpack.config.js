@@ -20,7 +20,7 @@ module.exports = {
       // asset/source exports the source code of the asset.
       // Usage: e.g., import notFoundPage from "./page_404.html"
       {
-        test: /\.(txt|html|css|svg)/,
+        test: /\.(txt|html|css|svg|md)/,
         type: "asset/source",
       },
     ],

@@ -22,7 +22,7 @@ function fetchConfig() {
       // method, as this would allow anybody to skip the queue.
       //
       // set to null to disable HTTP Basic Auth (not recommended!)
-      password: "fastly",
+      password: null,
     },
     queue: {
       // how often to refresh the queue page

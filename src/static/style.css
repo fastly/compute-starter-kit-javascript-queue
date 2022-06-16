@@ -23,7 +23,7 @@ h2 {
 }
 
 .attr {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 16px;
   color: white;
@@ -52,6 +52,19 @@ h2 {
   .info {
     margin-top: 64px;
   }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  text-align: center;
+}
+
+.controls p {
+  margin-bottom: 0;
 }
 
 .info h1 {
