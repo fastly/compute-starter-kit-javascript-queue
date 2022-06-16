@@ -6,17 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>eventWORLD | Virtual Queue</title>
   </head>
-  <body>
+  <body
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 8px;
+    "
+  >
     <div class="controls">
       <form method="POST" action="{{ adminBase }}/permit">
-        <input type="number" name="amt" value="1" width="32"/>
+        <input type="number" name="amt" value="1" />
         <input type="submit" value="Let visitors in" />
       </form>
       <form method="POST" action="{{ adminBase }}/clear_self">
         <input type="submit" value="Reset my position" />
       </form>
 
-      <br/>
+      <br />
 
       <p>There are <em>{{ visitorsWaiting }}</em> visitors waiting to enter.</p>
     </div>

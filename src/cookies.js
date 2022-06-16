@@ -20,11 +20,3 @@ export function setQueueCookie(res, queueCookie, maxAge) {
   );
   return res;
 }
-
-export function clearQueueCookie(res) {
-  res.headers.set(
-    "Set-Cookie",
-    "queue=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;"
-  );
-  return res;
-}

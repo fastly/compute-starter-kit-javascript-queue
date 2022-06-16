@@ -27,6 +27,7 @@ h2 {
   bottom: 16px;
   right: 16px;
   color: white;
+  font-size: 0.8rem;
 }
 
 .attr a {
@@ -48,7 +49,7 @@ h2 {
   transition: margin-top 0.25s ease-in-out;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1000px) and (min-height: 500px) {
   .info {
     margin-top: 64px;
   }
@@ -56,11 +57,20 @@ h2 {
 
 .controls {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 1rem;
   background-color: rgba(0, 0, 0, 0.9);
-  align-items: center;
-  text-align: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.controls form {
+  display: flex;
+  width: 250px;
+}
+
+.controls form input {
+  font-size: 0.8rem;
 }
 
 .controls p {

@@ -7,7 +7,7 @@ import * as base64 from "base-64";
 
 import fetchConfig from "./config";
 
-import { clearQueueCookie, getQueueCookie, setQueueCookie } from "./cookies";
+import { getQueueCookie, setQueueCookie } from "./cookies";
 
 import {
   getStore,
@@ -83,15 +83,23 @@ async function handleRequest(event) {
   // Get the user's queue cookie.
   let cookie = getQueueCookie(req);
 
-  // Decode the JWT signature to get the visitor's position in the queue.
-  let payload =
-    cookie && JSON.parse(jws.decode(cookie, "HS256", config.jwtSecret).payload);
+  let payload = null;
+  let isValid = false;
 
-  // If the queue cookie is set, verify that it is valid.
-  let isValid =
-    payload &&
-    jws.verify(cookie, "HS256", config.jwtSecret) &&
-    new Date(payload.expiry) > Date.now();
+  try {
+    // Decode the JWT signature to get the visitor's position in the queue.
+    payload =
+      cookie &&
+      JSON.parse(jws.decode(cookie, "HS256", config.jwtSecret).payload);
+
+    // If the queue cookie is set, verify that it is valid.
+    isValid =
+      payload &&
+      jws.verify(cookie, "HS256", config.jwtSecret) &&
+      new Date(payload.expiry) > Date.now();
+  } catch (e) {
+    console.log(`Error while validating cookie: ${e}`);
+  }
 
   // Fetch the current queue cursor.
   let queueCursor = await getQueueCursor(redis);
@@ -241,7 +249,7 @@ async function handleAdminRequest(req, path, config, redis) {
 
     return returnToAdmin(config);
   } else if (path == `${config.admin.path}/clear_self`) {
-    return clearQueueCookie(returnToAdmin(config));
+    return setQueueCookie(returnToAdmin(config), null, 60);
   }
 }
 
