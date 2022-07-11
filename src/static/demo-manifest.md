@@ -7,6 +7,7 @@ description: |
   website visitors with a place in an orderly queue, and admit them to the
   website in a way that regulates load on your origin infrastructure.
 # repo: https://github.com/fastly/compute-starter-kit-javascript-queue
+expectedRootStatus: 401
 views:
   endUser:
     mode: frame
