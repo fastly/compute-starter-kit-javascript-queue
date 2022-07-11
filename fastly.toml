@@ -26,3 +26,15 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
 
       format = "json"
       file = "devconfig.json"
+
+[setup]
+
+  [setup.backends]
+
+    [setup.backends.protected_content]
+
+    [setup.backends.upstash]
+
+  [setup.log_endpoints]
+
+    [setup.log_endpoints.queue_logs]

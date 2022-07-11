@@ -39,7 +39,6 @@ export async function incrementAutoPeriod(store, config) {
   let period = Math.ceil(
     new Date().getTime() / (config.queue.automatic * 1000)
   );
-  console.log(`this period is #${period}`);
 
   return await store.incr(`${AUTO_KEY_PREFIX}:${period}`);
 }

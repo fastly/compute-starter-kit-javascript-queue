@@ -18,6 +18,8 @@ import {
   incrementAutoPeriod,
 } from "./store";
 
+import log from "./logging";
+
 import processView from "./views";
 
 import adminView from "./views/admin.html";
@@ -36,16 +38,17 @@ const ALLOWED_PATHS = [
   "/assets/logo.svg",
 ];
 
+// The name of the log endpoint receiving request logs.
+const LOG_ENDPOINT = "queue_logs";
+
 // The entry point for your application.
 addEventListener("fetch", (event) => event.respondWith(handleRequest(event)));
 
 // Handle an incoming request.
 async function handleRequest(event) {
   // Get the client request and parse the URL.
-  let req = event.request;
-  let url = new URL(req.url);
-
-  console.log(`received request ${req.method} ${url.pathname}`);
+  const { request, client } = event;
+  const url = new URL(request.url);
 
   // For demo purposes, we serve this manifest. Feel free to delete this.
   if (url.pathname == "/.well-known/fastly/demo-manifest") {
@@ -59,7 +62,7 @@ async function handleRequest(event) {
 
   // Allow requests to assets that are not protected by the queue.
   if (ALLOWED_PATHS.includes(url.pathname)) {
-    let resp = await handleAuthorizedRequest(req);
+    let resp = await handleAuthorizedRequest(request);
 
     // Override the Cache-Control header on assets
     if (!resp.headers.has("Cache-Control") && resp.status == 200) {
@@ -77,11 +80,11 @@ async function handleRequest(event) {
 
   // Handle requests to admin endpoints.
   if (config.admin.path && url.pathname.startsWith(config.admin.path)) {
-    return await handleAdminRequest(req, url.pathname, config, redis);
+    return await handleAdminRequest(request, url.pathname, config, redis);
   }
 
   // Get the user's queue cookie.
-  let cookie = getQueueCookie(req);
+  let cookie = getQueueCookie(request);
 
   let payload = null;
   let isValid = false;
@@ -98,7 +101,7 @@ async function handleRequest(event) {
       jws.verify(cookie, "HS256", config.jwtSecret) &&
       new Date(payload.expiry) > Date.now();
   } catch (e) {
-    console.log(`Error while validating cookie: ${e}`);
+    console.error(`Error while validating cookie: ${e}`);
   }
 
   // Fetch the current queue cursor.
@@ -110,8 +113,6 @@ async function handleRequest(event) {
 
   if (payload && isValid) {
     visitorPosition = payload.position;
-
-    console.log(`validated token for queue position #${visitorPosition}`);
   } else {
     // Add a new visitor to the end of the queue.
     // If demo padding is set in the config, the queue will grow by that amount.
@@ -119,8 +120,6 @@ async function handleRequest(event) {
       redis,
       config.queue.demoPadding ? config.queue.demoPadding : 1
     );
-
-    console.log(`issued token for queue position #${visitorPosition}`);
 
     // Sign a JWT with the visitor's position.
     newToken = jws.sign({
@@ -133,13 +132,10 @@ async function handleRequest(event) {
     });
   }
 
-  console.log(
-    `queue cursor: ${queueCursor}, visitor position: ${visitorPosition}`
-  );
-
+  let permitted = queueCursor >= visitorPosition;
   let response = null;
 
-  if (visitorPosition > queueCursor) {
+  if (!permitted) {
     if (config.queue.automatic > 0) {
       let reqsThisPeriod = await incrementAutoPeriod(redis, config);
 
@@ -147,43 +143,52 @@ async function handleRequest(event) {
         let queueLength = await getQueueLength(redis);
 
         if (queueCursor < queueLength + config.queue.automaticQuantity) {
-          console.log(
-            `request triggered automatic increment (${config.queue.automaticQuantity})`
-          );
           queueCursor = await incrementQueueCursor(
             redis,
             config.queue.automaticQuantity
           );
 
           if (visitorPosition < queueCursor) {
-            response = await handleAuthorizedRequest(req);
+            permitted = true;
           }
         }
       }
     }
+  }
 
-    if (!response) {
-      response = await handleUnauthorizedRequest(
-        req,
-        config,
-        visitorPosition - queueCursor - 1
-      );
-    }
+  if (!permitted) {
+    response = await handleUnauthorizedRequest(
+      request,
+      config,
+      visitorPosition - queueCursor - 1
+    );
   } else {
-    response = await handleAuthorizedRequest(req);
+    response = await handleAuthorizedRequest(request);
   }
 
   // Set a cookie on the response if needed and return it to the client.
   if (newToken) {
-    return setQueueCookie(response, newToken, config.queue.cookieExpiry);
-  } else {
-    return response;
+    response = setQueueCookie(response, newToken, config.queue.cookieExpiry);
   }
+
+  // Log the request and response.
+  log(
+    fastly.getLogger(LOG_ENDPOINT),
+    request,
+    client,
+    permitted,
+    response.status,
+    {
+      queueCursor,
+      visitorPosition,
+    }
+  );
+
+  return response;
 }
 
 // Handle an incoming request that has been authorized to access protected content.
 async function handleAuthorizedRequest(req) {
-  console.log("authorized! passing to backend");
   return await fetch(req, {
     backend: CONTENT_BACKEND,
     ttl: 21600,
@@ -192,8 +197,6 @@ async function handleAuthorizedRequest(req) {
 
 // Handle an incoming request that is not yet authorized to access protected content.
 async function handleUnauthorizedRequest(req, config, visitorsAhead) {
-  console.log("denied - serving queue page");
-
   return new Response(
     processView(queueView, {
       visitorsAhead: visitorsAhead.toLocaleString(),
@@ -227,7 +230,7 @@ async function handleAdminRequest(req, path, config, redis) {
 
   if (path == config.admin.path) {
     let visitorsWaiting =
-      (await getQueueLength(redis)) - (await getQueueCursor(redis)) + 1;
+      (await getQueueLength(redis)) - (await getQueueCursor(redis));
 
     return new Response(
       processView(adminView, {
