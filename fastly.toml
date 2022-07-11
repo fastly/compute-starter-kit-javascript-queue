@@ -13,8 +13,8 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
   [local_server.backends]
 
     [local_server.backends.protected_content]
-    url = "https://eventworld-static.s3.eu-west-2.amazonaws.com"
-    override_host = "eventworld-static.s3.eu-west-2.amazonaws.com"
+    url = "http://eventworld-static.s3-website.eu-west-2.amazonaws.com"
+    override_host = "eventworld-static.s3-website.eu-west-2.amazonaws.com"
 
     [local_server.backends.upstash]
     url = "https://eu1-close-treefrog-37046.upstash.io"
@@ -38,3 +38,21 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
   [setup.log_endpoints]
 
     [setup.log_endpoints.queue_logs]
+
+  [setup.dictionaries]
+
+    [setup.dictionaries.config]
+
+      [setup.dictionaries.config.items]
+
+        [setup.dictionaries.config.items.upstash_url]
+        description = "URL of Upstash service (e.g. https://eu1-close-treefrog-35041.upstash.io)"
+        input_type = "url"
+
+        [setup.dictionaries.config.items.upstash_token]
+        description = "Token for Upstash REST API"
+        input_type = "password"
+
+        [setup.dictionaries.config.items.jwt_secret]
+        description = "Secret for JWT signing"
+        input_type = "password"
