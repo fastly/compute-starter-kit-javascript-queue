@@ -16,7 +16,7 @@ views:
   superUser:
     mode: frame
     href: /_queue
-    height: 125
+    height: 60
 sessions: false
 ---
 

@@ -63,6 +63,7 @@ h2 {
   background-color: rgba(0, 0, 0, 0.9);
   justify-content: space-around;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .controls form {
