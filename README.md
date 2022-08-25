@@ -1,4 +1,4 @@
-# Queuing on Compute@Edge starter kit [<img align="right" alt="Deploy to Fastly" src="https://deploy.edgecompute.app/button"/>](https://deploy.edgecompute.app/deploy)
+# Queuing Starter Kit for JavaScript [<img align="right" alt="Deploy to Fastly" src="https://deploy.edgecompute.app/button"/>](https://deploy.edgecompute.app/deploy)
 
 Park website visitors in a virtual queue to reduce the demand on your origins during peak times.
 
