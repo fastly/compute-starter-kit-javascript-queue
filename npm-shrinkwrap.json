@@ -5,6 +5,7 @@
   "requires": true,
   "packages": {
     "": {
+      "name": "compute-starter-kit-javascript-queue",
       "version": "1.0.0-pre",
       "license": "MIT",
       "dependencies": {
@@ -21,7 +22,7 @@
         "webpack-cli": "^4.9.1"
       },
       "engines": {
-        "node": "^16"
+        "node": ">=16.0.0"
       }
     },
     "node_modules/@discoveryjs/json-ext": {
