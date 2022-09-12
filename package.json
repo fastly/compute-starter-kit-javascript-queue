@@ -4,7 +4,7 @@
     "url": "https://github.com/fastly/compute-starter-kit-javascript-queue/issues"
   },
   "dependencies": {
-    "@fastly/js-compute": "^0.2.4",
+    "@fastly/js-compute": "^0.5.2",
     "@upstash/redis": "^1.4.0",
     "base-64": "^1.0.0",
     "jws": "^4.0.0"
