@@ -3,7 +3,6 @@
 /// <reference types="@fastly/js-compute" />
 
 import * as jws from "jws";
-import * as base64 from "base-64";
 
 import fetchConfig from "./config";
 
@@ -218,7 +217,7 @@ async function handleAdminRequest(req, path, config, redis) {
   if (
     config.admin.password &&
     req.headers.get("Authorization") !=
-      `Basic ${base64.encode(`admin:${config.admin.password}`)}`
+      `Basic ${btoa(`admin:${config.admin.password}`)}`
   ) {
     return new Response(null, {
       status: 401,

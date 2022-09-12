@@ -11,7 +11,6 @@
       "dependencies": {
         "@fastly/js-compute": "^0.5.2",
         "@upstash/redis": "^1.4.0",
-        "base-64": "^1.0.0",
         "jws": "^4.0.0"
       },
       "devDependencies": {
@@ -380,11 +379,6 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
       "integrity": "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
-    },
-    "node_modules/base-64": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/base-64/-/base-64-1.0.0.tgz",
-      "integrity": "sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg=="
     },
     "node_modules/base64-js": {
       "version": "1.5.1",
@@ -3364,11 +3358,6 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
       "integrity": "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
-    },
-    "base-64": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/base-64/-/base-64-1.0.0.tgz",
-      "integrity": "sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg=="
     },
     "base64-js": {
       "version": "1.5.1",

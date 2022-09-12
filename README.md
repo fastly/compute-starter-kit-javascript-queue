@@ -30,7 +30,6 @@ Park website visitors in a virtual queue to reduce the demand on your origins du
 This starter is fully-featured, and requires some dependencies on top of the [`@fastly/js-compute`](https://www.npmjs.com/package/@fastly/js-compute) npm package. The following is a list of the dependencies used:
 
 - **[@upstash/redis](https://www.npmjs.com/package/@upstash/redis)** - a REST-based Redis client for storing queue state. You could easily swap this for your own storage backend.
-- **[base-64](https://www.npmjs.com/package/base-64)** - a pure JavaScript implementation of a base64 encoder.
 - **[jws](https://www.npmjs.com/package/jws)** - a library for generating and validating [JSON Web Tokens](https://datatracker.ietf.org/doc/html/rfc7519).
 
 The starter will require a backend to be configured to send requests to once visitors have made it through the queue. For demonstration, the default is a public S3 bucket with some assets and an index page.
