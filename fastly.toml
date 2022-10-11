@@ -13,19 +13,21 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
   [local_server.backends]
 
     [local_server.backends.protected_content]
-    url = "http://eventworld-static.s3-website.eu-west-2.amazonaws.com"
-    override_host = "eventworld-static.s3-website.eu-west-2.amazonaws.com"
+      override_host = "eventworld-static.s3-website.eu-west-2.amazonaws.com"
+      url = "http://eventworld-static.s3-website.eu-west-2.amazonaws.com"
 
     [local_server.backends.upstash]
-    url = "https://eu1-close-treefrog-37046.upstash.io"
-    override_host = "eu1-close-treefrog-37046.upstash.io"
+      override_host = "eu1-close-treefrog-37046.upstash.io"
+      url = "https://eu1-close-treefrog-37046.upstash.io"
 
   [local_server.dictionaries]
 
     [local_server.dictionaries.config]
-
-      format = "json"
       file = "devconfig.json"
+      format = "json"
+
+[scripts]
+  build = "$(npm bin)/webpack && $(npm bin)/js-compute-runtime ./bin/index.js ./bin/main.wasm"
 
 [setup]
 
@@ -35,24 +37,21 @@ service_id = "2m8R5zIahiGBdKTfYv8k8L"
 
     [setup.backends.upstash]
 
-  [setup.log_endpoints]
-
-    [setup.log_endpoints.queue_logs]
-
   [setup.dictionaries]
 
     [setup.dictionaries.config]
 
       [setup.dictionaries.config.items]
 
-        [setup.dictionaries.config.items.upstash_url]
-        description = "URL of Upstash service (e.g. https://eu1-close-treefrog-35041.upstash.io)"
-        input_type = "url"
+        [setup.dictionaries.config.items.jwt_secret]
+          description = "Secret for JWT signing"
 
         [setup.dictionaries.config.items.upstash_token]
-        description = "Token for Upstash REST API"
-        input_type = "password"
+          description = "Token for Upstash REST API"
 
-        [setup.dictionaries.config.items.jwt_secret]
-        description = "Secret for JWT signing"
-        input_type = "password"
+        [setup.dictionaries.config.items.upstash_url]
+          description = "URL of Upstash service (e.g. https://eu1-close-treefrog-35041.upstash.io)"
+
+  [setup.log_endpoints]
+
+    [setup.log_endpoints.queue_logs]

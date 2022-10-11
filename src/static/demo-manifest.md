@@ -6,7 +6,10 @@ description: |
   Using a third-party Redis API provider as a lightweight store, issue
   website visitors with a place in an orderly queue, and admit them to the
   website in a way that regulates load on your origin infrastructure.
-# repo: https://github.com/fastly/compute-starter-kit-javascript-queue
+repo: https://github.com/fastly/compute-starter-kit-javascript-queue
+image:
+  href: /demo-thumb.png
+  alt: Holding page for a waiting room
 expectedRootStatus: 401
 views:
   endUser:
