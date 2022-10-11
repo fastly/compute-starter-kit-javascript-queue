@@ -6,7 +6,6 @@ description = "Park your users in a virtual queue to reduce the demand on your o
 language = "javascript"
 manifest_version = 2
 name = "Queuing / Waiting room (JS)"
-service_id = "2m8R5zIahiGBdKTfYv8k8L"
 
 [local_server]
 
