@@ -24,7 +24,9 @@ import processView from "./views";
 import adminView from "./views/admin.html";
 import queueView from "./views/queue.html";
 
+// For demo purposes
 import demoManifest from "./static/demo-manifest.md";
+const DEMO_THUMBNAIL = fastly.includeBytes('src/static/demo-thumb.png');
 
 // The name of the backend serving the content that is being protected by the queue.
 const CONTENT_BACKEND = "protected_content";
@@ -49,13 +51,19 @@ async function handleRequest(event) {
   const { request, client } = event;
   const url = new URL(request.url);
 
-  // For demo purposes, we serve this manifest. Feel free to delete this.
+  // Metadata foe developer.fastly.com.
+  // Feel free to delete this.
   if (url.pathname == "/.well-known/fastly/demo-manifest") {
     return new Response(demoManifest, {
       status: 200,
       headers: {
         "Content-Type": "text/markdown",
       },
+    });
+  } else if (url.pathname == "/demo-thumb.png") {
+    return new Response(DEMO_THUMBNAIL, {
+      status: 200,
+      headers: { 'content-type': 'image/png' }
     });
   }
 
