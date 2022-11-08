@@ -1,5 +1,3 @@
-import { Redis } from "@upstash/redis/fastly";
-
 // The name of the backend providing the Upstash Redis service.
 const UPSTASH_BACKEND = "upstash";
 

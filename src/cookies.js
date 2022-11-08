@@ -8,7 +8,7 @@ export function getQueueCookie(req) {
     .map((c) => c.split("="))
     .filter(([k, _]) => k === "queue");
 
-  if (res.length > 1) return null;
+  if (res.length < 1) return null;
 
   return res[0][1];
 }
