@@ -22,7 +22,7 @@ name = "Queuing / Waiting room (JS)"
   [local_server.dictionaries]
 
     [local_server.dictionaries.config]
-      file = "devconfig.json"
+      file = "devconfig.example.json"
       format = "json"
 
 [scripts]
