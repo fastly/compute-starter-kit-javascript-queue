@@ -8,7 +8,6 @@
     "@upstash/redis": "^1.19.3",
     "jws": "^4.0.0"
   },
-  "type": "module",
   "devDependencies": {
     "buffer": "^6.0.3",
     "core-js": "^3.27.2",
@@ -26,6 +25,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fastly/compute-starter-kit-javascript-queue.git"
+  },
+  "scripts": {
+    "build": "js-compute-runtime bin/index.js bin/main.wasm",
+    "deploy": "npm run build && fastly compute deploy",
+    "prebuild": "webpack"
   },
   "version": "1.0.0-pre"
 }
