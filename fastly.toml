@@ -1,6 +1,3 @@
-# This file describes a Fastly Compute@Edge package. To learn more visit:
-# https://developer.fastly.com/reference/fastly-toml/
-
 authors = ["kblanks@fastly.com"]
 description = "Park your users in a virtual queue to reduce the demand on your origins during peak times."
 language = "javascript"
@@ -24,9 +21,6 @@ name = "Queuing / Waiting room (JS)"
     [local_server.dictionaries.config]
       file = "devconfig.example.json"
       format = "json"
-
-[scripts]
-  build = "$(npm bin)/webpack && $(npm bin)/js-compute-runtime ./bin/index.js ./bin/main.wasm"
 
 [setup]
 
