@@ -150,13 +150,24 @@ async function handleRequest(event) {
         let queueLength = await getQueueLength(redis);
 
         if (queueCursor < queueLength + config.queue.automaticQuantity) {
-          queueCursor = await incrementQueueCursor(
-            redis,
-            config.queue.automaticQuantity
-          );
+          // Check backend load
+          let backendLoadResp = await fetch('https://golden-branch-web.glitch.me/load', {
+            ttl: 15
+          });
+          let backendLoad = parseInt(await backendLoadResp.text());
 
-          if (visitorPosition < queueCursor) {
-            permitted = true;
+          console.log('Backend load is: ' + backendLoad);
+
+          // Only let people in if CPU load is < 0.8
+          if (backendLoad < 80) {
+            queueCursor = await incrementQueueCursor(
+              redis,
+              config.queue.automaticQuantity
+            );
+
+            if (visitorPosition < queueCursor) {
+              permitted = true;
+            }
           }
         }
       }

@@ -1,16 +1,20 @@
+# This file describes a Fastly Compute@Edge package. To learn more visit:
+# https://developer.fastly.com/reference/fastly-toml/
+
 authors = ["kblanks@fastly.com"]
 description = "Park your users in a virtual queue to reduce the demand on your origins during peak times."
 language = "javascript"
 manifest_version = 2
 name = "Queuing / Waiting room (JS)"
+service_id = ""
 
 [local_server]
 
   [local_server.backends]
 
     [local_server.backends.protected_content]
-      override_host = "eventworld-static.s3-website.eu-west-2.amazonaws.com"
-      url = "http://eventworld-static.s3-website.eu-west-2.amazonaws.com"
+      override_host = "golden-branch-web.glitch.me"
+      url = "http://34.123.217.126:8003/"
 
     [local_server.backends.upstash]
       override_host = "eu1-close-treefrog-37046.upstash.io"
@@ -19,8 +23,11 @@ name = "Queuing / Waiting room (JS)"
   [local_server.dictionaries]
 
     [local_server.dictionaries.config]
-      file = "devconfig.example.json"
+      file = "devconfig.json"
       format = "json"
+
+[scripts]
+  build = "npm exec webpack && npm exec js-compute-runtime ./bin/index.js ./bin/main.wasm"
 
 [setup]
 
