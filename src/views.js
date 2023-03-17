@@ -1,4 +1,7 @@
-import styles from "./static/style.css";
+import { includeBytes } from "fastly:experimental";
+
+const textDecoder = new TextDecoder();
+const styles = textDecoder.decode(includeBytes('src/static/style.css'));
 
 // Injects styles and props into the given template.
 export default function processView(template, props) {
