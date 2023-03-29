@@ -4,6 +4,9 @@ language = "javascript"
 manifest_version = 2
 name = "Queuing / Waiting room (JS)"
 
+[scripts]
+  build = "npm run build"
+
 [local_server]
 
   [local_server.backends]

@@ -2,6 +2,7 @@
 
 /// <reference types="@fastly/js-compute" />
 
+import { includeBytes } from "fastly:experimental";
 import * as jws from "jws";
 
 import fetchConfig from "./config";
@@ -21,12 +22,14 @@ import log from "./logging";
 
 import processView from "./views";
 
-import adminView from "./views/admin.html";
-import queueView from "./views/queue.html";
+const textDecoder = new TextDecoder();
+
+const adminView = textDecoder.decode(includeBytes('src/views/admin.html'));
+const queueView = textDecoder.decode(includeBytes('src/views/queue.html'));
 
 // For demo purposes
-import demoManifest from "./static/demo-manifest.md";
-const DEMO_THUMBNAIL = fastly.includeBytes('src/static/demo-thumb.png');
+const demoManifest = textDecoder.decode(includeBytes('src/static/demo-manifest.md'));
+const DEMO_THUMBNAIL = includeBytes('src/static/demo-thumb.png');
 
 // The name of the backend serving the content that is being protected by the queue.
 const CONTENT_BACKEND = "protected_content";
