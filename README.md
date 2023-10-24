@@ -2,7 +2,7 @@
 
 Park website visitors in a virtual queue to reduce the demand on your origins during peak times.
 
-**For more details about other starter kits for Compute@Edge, see the [Fastly developer hub](https://developer.fastly.com/solutions/starters)**
+**For more details about other starter kits for Fastly Compute, see the [Fastly Developer Hub](https://developer.fastly.com/solutions/starters)**
 
 [![A screenshot of the queue page for a ticketing website. It reads: Sometimes we have to restrict the number of people who can access our website at the same time, so that everything works properly. There are 46 people ahead of you in the queue.](screenshot.png)](https://queue-demo.edgecompute.app/index.html)
 
@@ -16,7 +16,7 @@ Park website visitors in a virtual queue to reduce the demand on your origins du
 ## Getting started
 
 1. If you haven't already, [sign up for Upstash](https://www.npmjs.com/package/@upstash/redis) and create a Redis service.
-2. Initialize a Compute@Edge project using this starter kit.
+2. Initialize a Compute project using this starter kit.
    ```sh
    fastly compute init --from=https://github.com/fastly/compute-starter-kit-javascript-queue
    ```
@@ -34,7 +34,7 @@ This starter is fully-featured, and requires some dependencies on top of the [`@
 
 The starter will require a backend to be configured to send requests to once visitors have made it through the queue. For demonstration, the default is a public S3 bucket with some assets and an index page.
 
-The template uses webpack to bundle `index.js` and its imports into a single JS file, `bin/index.js`, which is then wrapped into a `.wasm` file, `bin/index.wasm` using the `js-compute-runtime` CLI tool bundled with the `@fastly/js-compute` npm package, and bundled into a `.tar.gz` file ready for deployment to Compute@Edge.
+The template uses webpack to bundle `index.js` and its imports into a single JS file, `bin/index.js`, which is then wrapped into a `.wasm` file, `bin/index.wasm` using the `js-compute-runtime` CLI tool bundled with the `@fastly/js-compute` npm package, and bundled into a `.tar.gz` file ready for deployment to Compute.
 
 ## Design
 

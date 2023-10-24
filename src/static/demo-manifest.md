@@ -34,7 +34,7 @@ On subsequent requests, when a JWT is supplied, we verify the signature and extr
 This demo is available as a [starter kit](https://developer.fastly.com/solutions/starters/compute-javascript-queue) and requires you to sign up to a third-party Redis provider, [Upstash](https://upstash.com), unless you'd like to set up your own, in which case you can swap out Upstash for your own HTTP API in the [`store.js`](https://github.com/fastly/compute-starter-kit-javascript-queue/blob/main/src/store.js)
 
 1. If you haven't already, [sign up for a free Upstash account](https://console.upstash.com) and create a Redis service.
-2. Initialize a Compute@Edge project using the starter kit.
+2. Initialize a Compute project using the starter kit.
    ```sh
    fastly compute init --from=https://github.com/fastly/compute-starter-kit-javascript-queue
    ```

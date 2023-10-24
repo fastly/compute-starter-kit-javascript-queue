@@ -1,4 +1,4 @@
-//! Compute@Edge queuing starter kit.
+//! Compute queuing starter kit.
 
 /// <reference types="@fastly/js-compute" />
 
