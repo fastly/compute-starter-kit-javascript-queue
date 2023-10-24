@@ -19,9 +19,9 @@ name = "Queuing / Waiting room (JS)"
       override_host = "eu1-close-treefrog-37046.upstash.io"
       url = "https://eu1-close-treefrog-37046.upstash.io"
 
-  [local_server.dictionaries]
+  [local_server.config_stores]
 
-    [local_server.dictionaries.config]
+    [local_server.config_stores.config]
       file = "devconfig.example.json"
       format = "json"
 
@@ -33,19 +33,19 @@ name = "Queuing / Waiting room (JS)"
 
     [setup.backends.upstash]
 
-  [setup.dictionaries]
+  [setup.config_stores]
 
-    [setup.dictionaries.config]
+    [setup.config_stores.config]
 
-      [setup.dictionaries.config.items]
+      [setup.config_stores.config.items]
 
-        [setup.dictionaries.config.items.jwt_secret]
+        [setup.config_stores.config.items.jwt_secret]
           description = "Secret for JWT signing"
 
-        [setup.dictionaries.config.items.upstash_token]
+        [setup.config_stores.config.items.upstash_token]
           description = "Token for Upstash REST API"
 
-        [setup.dictionaries.config.items.upstash_url]
+        [setup.config_stores.config.items.upstash_url]
           description = "URL of Upstash service (e.g. https://eu1-close-treefrog-35041.upstash.io)"
 
   [setup.log_endpoints]

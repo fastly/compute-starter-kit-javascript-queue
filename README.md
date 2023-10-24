@@ -22,7 +22,7 @@ Park website visitors in a virtual queue to reduce the demand on your origins du
    ```
 3. Create the `upstash` backend, changing the default hostname to the one provided in the Upstash console.
 4. Create the `protected_content` backend by accepting the default example host or setting your own.
-5. Populate the `config` dictionary by following the prompts to configure Upstash and set a secret for signing cookies.
+5. Populate the `config` config store by following the prompts to configure Upstash and set a secret for signing cookies.
 6. Run `fastly compute publish` to deploy your queue.
 
 ## Understanding the code
