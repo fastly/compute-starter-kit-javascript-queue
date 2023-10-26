@@ -1,5 +1,7 @@
+import { ConfigStore } from "fastly:config-store";
+
 function fetchConfig() {
-  let dict = new Dictionary("config");
+  let dict = new ConfigStore("config");
 
   return {
     upstash: {

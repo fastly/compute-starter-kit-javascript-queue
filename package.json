@@ -4,15 +4,15 @@
     "url": "https://github.com/fastly/compute-starter-kit-javascript-queue/issues"
   },
   "dependencies": {
-    "@fastly/js-compute": "^3.0.0",
-    "@upstash/redis": "^1.19.3",
+    "@fastly/js-compute": "^3.7.0",
+    "@upstash/redis": "^1.23.4",
     "jws": "^4.0.0"
   },
   "devDependencies": {
     "buffer": "^6.0.3",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "webpack": "^5.76.2",
-    "webpack-cli": "^5.0.1"
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   },
   "engines": {
     "node": "^18.0.0"
