@@ -2,14 +2,14 @@
 
 Park website visitors in a virtual queue to reduce the demand on your origins during peak times.
 
-**For more details about other starter kits for Fastly Compute, see the [Fastly Developer Hub](https://developer.fastly.com/solutions/starters)**
+**For more details about other starter kits for Fastly Compute, see the [Fastly Documentation Hub](https://www.fastly.com/documentation/solutions/starters)**
 
 [![A screenshot of the queue page for a ticketing website. It reads: Sometimes we have to restrict the number of people who can access our website at the same time, so that everything works properly. There are 46 people ahead of you in the queue.](screenshot.png)](https://queue-demo.edgecompute.app/index.html)
 
 ## Features
 
 - Park visitors in a queue to limit the amount of active users on the website ⏳
-- Ship queue analytics to [log endpoints](https://developer.fastly.com/learning/integrations/logging) 🔎
+- Ship queue analytics to [log endpoints](https://www.fastly.com/documentation/guides/integrations/logging) 🔎
 - Allow certain requests such as robots.txt, favicon to bypass the queue 🤖
 - No client-side scripting required ⚡️
 
