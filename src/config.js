@@ -56,13 +56,7 @@ function fetchConfig() {
       // how many visitors should be let in at a time?
       //
       // default 5
-      automaticQuantity: 5,
-
-      // for demonstration purposes only, how many visitors should be
-      // added to the queue ahead of a new visitor
-      //
-      // default 15, set to 1 for normal behaviour
-      demoPadding: 15,
+      automaticQuantity: 5
     },
   };
 }

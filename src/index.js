@@ -27,10 +27,6 @@ const textDecoder = new TextDecoder();
 const adminView = textDecoder.decode(includeBytes('src/views/admin.html'));
 const queueView = textDecoder.decode(includeBytes('src/views/queue.html'));
 
-// For demo purposes
-const demoManifest = textDecoder.decode(includeBytes('src/static/demo-manifest.md'));
-const DEMO_THUMBNAIL = includeBytes('src/static/demo-thumb.png');
-
 // The name of the backend serving the content that is being protected by the queue.
 const CONTENT_BACKEND = "protected_content";
 
@@ -53,22 +49,6 @@ async function handleRequest(event) {
   // Get the client request and parse the URL.
   const { request, client } = event;
   const url = new URL(request.url);
-
-  // Metadata foe developer.fastly.com.
-  // Feel free to delete this.
-  if (url.pathname == "/.well-known/fastly/demo-manifest") {
-    return new Response(demoManifest, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/markdown",
-      },
-    });
-  } else if (url.pathname == "/demo-thumb.png") {
-    return new Response(DEMO_THUMBNAIL, {
-      status: 200,
-      headers: { 'content-type': 'image/png' }
-    });
-  }
 
   // Allow requests to assets that are not protected by the queue.
   if (ALLOWED_PATHS.includes(url.pathname)) {
@@ -124,11 +104,10 @@ async function handleRequest(event) {
   if (payload && isValid) {
     visitorPosition = payload.position;
   } else {
-    // Add a new visitor to the end of the queue.
-    // If demo padding is set in the config, the queue will grow by that amount.
+    // Add 1 new visitor to the end of the queue.
     visitorPosition = await incrementQueueLength(
       redis,
-      config.queue.demoPadding ? config.queue.demoPadding : 1
+      1
     );
 
     // Sign a JWT with the visitor's position.
