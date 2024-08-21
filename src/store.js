@@ -36,11 +36,17 @@ export async function incrementQueueLength(store, amt) {
 //
 // Returns the new counter value.
 export async function incrementAutoPeriod(store, config) {
-  let period = Math.ceil(
+  const period = Math.ceil(
     new Date().getTime() / (config.queue.automatic * 1000)
   );
 
-  return await store.incr(`${AUTO_KEY_PREFIX}:${period}`);
+  const key = `${AUTO_KEY_PREFIX}:${period}`;
+  const value = await store.incr(key);
+  
+  // If this is the first call, set the key to expire at the end of the period.
+  if (value === 1) await store.expire(key, config.queue.automatic);
+
+  return value;
 }
 
 // Helper function for configuring a Redis client.
