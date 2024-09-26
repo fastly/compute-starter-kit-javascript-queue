@@ -6,6 +6,7 @@ name = "Queuing / Waiting room (JS)"
 
 [scripts]
   build = "npm run build"
+  post_init = "npm install"
 
 [local_server]
 
