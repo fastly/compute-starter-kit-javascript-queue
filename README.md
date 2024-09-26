@@ -16,14 +16,14 @@ Park website visitors in a virtual queue to reduce the demand on your origins du
 ## Getting started
 
 1. If you haven't already, [sign up for Upstash](https://www.npmjs.com/package/@upstash/redis) and create a Redis service.
-2. Initialize a Compute project using this starter kit.
+2. Create a new directory for your application and switch to it. Initialize a Compute project using this starter kit.
    ```sh
-   fastly compute init --from=https://github.com/fastly/compute-starter-kit-javascript-queue
+   npm create @fastly/compute@latest -- --language=javascript --starter-kit=queue
    ```
 3. Create the `upstash` backend, changing the default hostname to the one provided in the Upstash console.
 4. Create the `protected_content` backend by accepting the default example host or setting your own.
 5. Populate the `config` config store by following the prompts to configure Upstash and set a secret for signing cookies.
-6. Run `fastly compute publish` to deploy your queue.
+6. Run `npm run deploy` to deploy your queue to your Fastly account.
 
 ## Understanding the code
 

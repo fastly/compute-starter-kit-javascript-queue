@@ -9,6 +9,7 @@
     "jws": "^4.0.0"
   },
   "devDependencies": {
+    "@fastly/cli": "^10.14.0",
     "buffer": "^6.0.3",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "webpack": "^5.89.0",
@@ -28,6 +29,7 @@
   "scripts": {
     "prebuild": "webpack",
     "build": "js-compute-runtime bin/index.js bin/main.wasm",
+    "start": "fastly compute serve",
     "deploy": "fastly compute publish"
   },
   "version": "1.0.0-pre"
