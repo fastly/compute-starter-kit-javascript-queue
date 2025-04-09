@@ -1,5 +1,5 @@
 {
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@fastly/js-compute": "^3.33.2",
@@ -15,8 +15,11 @@
   },
   "scripts": {
     "prebuild": "webpack",
-    "build": "js-compute-runtime bin/index.js bin/main.wasm",
+    "build": "js-compute-runtime bin/index.cjs bin/main.wasm",
     "start": "fastly compute serve",
     "deploy": "fastly compute publish"
+  },
+  "engines": {
+    "node": ">= 20.11"
   }
 }
