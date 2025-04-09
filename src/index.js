@@ -5,9 +5,9 @@
 import { includeBytes } from "fastly:experimental";
 import * as jws from "jws";
 
-import fetchConfig from "./config";
+import fetchConfig from "./config.js";
 
-import { getQueueCookie, setQueueCookie } from "./cookies";
+import { getQueueCookie, setQueueCookie } from "./cookies.js";
 
 import {
   getStore,
@@ -16,11 +16,11 @@ import {
   incrementQueueCursor,
   incrementQueueLength,
   incrementAutoPeriod,
-} from "./store";
+} from "./store.js";
 
-import log from "./logging";
+import log from "./logging.js";
 
-import processView from "./views";
+import processView from "./views.js";
 
 const textDecoder = new TextDecoder();
 

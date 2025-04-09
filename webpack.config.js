@@ -1,16 +1,19 @@
-const path = require("path");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+import path from "path";
+import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
-module.exports = {
+export default {
   entry: "./src/index.js",
   optimization: {
     minimize: true,
   },
   target: "webworker",
   output: {
-    filename: "index.js",
-    path: path.resolve(__dirname, "bin"),
-    libraryTarget: "this",
+    filename: 'index.cjs',
+    path: path.resolve(import.meta.dirname, "bin"),
+    chunkFormat: 'commonjs',
+    library: {
+      type: 'commonjs',
+    },
   },
   module: {
     // Loaders go here.
@@ -27,11 +30,8 @@ module.exports = {
     }),
   ],
   externals: [
-    ({request,}, callback) => {
-      if (/^fastly:.*$/.test(request)) {
-        return callback(null, 'commonjs ' + request);
-      }
-      callback();
-    }
+    // Allow webpack to handle 'fastly:*' namespaced module imports by treating
+    // them as modules rather than trying to process them as URLs
+    /^fastly:.*$/,
   ],
 };
