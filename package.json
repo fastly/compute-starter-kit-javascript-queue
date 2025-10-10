@@ -7,7 +7,7 @@
     "jws": "^4.0.0"
   },
   "devDependencies": {
-    "@fastly/cli": "^11.0.0",
+    "@fastly/cli": "^12.1.0",
     "buffer": "^6.0.3",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "webpack": "^5.98.0",
